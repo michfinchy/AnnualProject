@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>大学课程学习资源</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <header>
+        <h1>大学课程学习资源</h1>
+        <p>精选优质B站教育视频，助力学习提升</p>
+    </header>
+    
+    <nav>
+        <ul id="subject-tabs">
+            {% for subject in subjects %}
+            <li><a href="#subject-{{ loop.index0 }}" class="tab-link">{{ subject }}</a></li>
+            {% endfor %}
+        </ul>
+    </nav>
+
+    <main>
+        {% for subject, videos in subjects.items() %}
+        <section id="subject-{{ loop.index0 }}" class="subject-content">
+            <h2>{{ subject }}</h2>
+            <div class="video-grid">
+                {% for video in videos %}
+                <div class="video-card">
+                    <h3>{{ video['标题'] }}</h3>
+                    <div class="video-stats">
+                        <div class="stat-item">
+                            <div class="stat-value">{{ "{:,.0f}".format(video['播放量']|float) }}</div>
+                            <div class="stat-label">播放量</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value">{{ "{:,.0f}".format(video['点赞数']|float) }}</div>
+                            <div class="stat-label">点赞</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value">{{ "{:,.0f}".format(video['收藏数']|float) }}</div>
+                            <div class="stat-label">收藏</div>
+                        </div>
+                    </div>
+                    <a href="{{ video['视频链接'] }}" target="_blank" class="watch-btn">
+                        <i class="fas fa-play-circle"></i> 观看视频
+                    </a>
+                </div>
+                {% endfor %}
+            </div>
+        </section>
+        {% endfor %}
+    </main>
+
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+</body>
+</html>
